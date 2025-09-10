@@ -1,0 +1,18 @@
+
+---
+title: "EDA Template"
+output: html_document
+---
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse); library(janitor); library(GGally)
+source(file.path("utils","data_loading.R"))
+df <- read_csv_safely(file.path("data","iris_sample.csv"))
+```
+## Glimpse
+```{r}
+glimpse(df)
+```
+## Pairs Plot
+```{r}
+GGally::ggpairs(df, columns=1:4, aes(color=species))
+```

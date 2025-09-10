@@ -1,0 +1,12 @@
+
+---
+title: "Time Series Forecasting"
+output: html_document
+---
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse); library(forecast)
+sales <- readr::read_csv(file.path("data","sales_time_series.csv"), show_col_types = FALSE)
+ts_obj <- ts(sales$sales, frequency=7)
+fit <- auto.arima(ts_obj)
+autoplot(forecast::forecast(fit, h=14))
+```

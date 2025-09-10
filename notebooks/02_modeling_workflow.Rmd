@@ -1,0 +1,15 @@
+
+---
+title: "Modeling Workflow"
+output: html_document
+---
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse); library(caret)
+source(file.path("utils","data_loading.R"))
+set.seed(123)
+df <- read_csv_safely(file.path("data","iris_sample.csv")) %>% mutate(species=factor(species))
+idx <- sample(seq_len(nrow(df)), 0.8*nrow(df)); train <- df[idx,]; test <- df[-idx,]
+fit <- train(species ~ ., data=train, method="rf", trControl=trainControl(method="cv", number=5))
+pred <- predict(fit, test)
+confusionMatrix(pred, test$species)
+```
