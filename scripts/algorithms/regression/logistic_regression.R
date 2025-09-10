@@ -1,0 +1,10 @@
+
+suppressPackageStartupMessages({library(tidyverse)})
+source(file.path("utils","data_loading.R")); source(file.path("utils","metrics.R")); source(file.path("utils","helpers.R"))
+seed_everything(7)
+df <- read_csv_safely(file.path("data","iris_sample.csv")) %>% mutate(is_setosa = if_else(species=="setosa",1L,0L))
+fit <- glm(is_setosa ~ sepal_length + sepal_width + petal_length + petal_width, data=df, family=binomial())
+proba <- predict(fit, type="response")
+pred <- if_else(proba>0.5,1,0)
+print(summary(fit))
+print(classification_metrics_simple(truth=df$is_setosa, estimate=pred))
